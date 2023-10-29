@@ -10,7 +10,7 @@ from datetime import datetime
 # LIKE ['date', 'time', 'Frequency'] put the below variables manually in analysis function
 # remove_first, first_n, second_n, third_n = 20, 5, 3, 3
 # target_freq_limit = [350, 600, 350]
-filepath = 'D:\CodingProblems\june15_2023_007_hypoxia_csv.csv'
+filepath = '/content/june15_2023_007_hypoxia_csv.csv'
 
 def read_file():
     """
@@ -155,11 +155,10 @@ def plot(data):
     
     plt.savefig('plot.png', dpi = 600)
        
-def analysis():
+def analysis(remove_first, first_n, second_n, third_n, target_freq_limit):
     data = read_file()
     # Put these values maunally
-    remove_first, first_n, second_n, third_n = 20, 10, 10, 10
-    target_freq_limit = [350, 600, 350]
+   
     
     data = extract_components_from_data(data, remove_first, first_n, second_n, third_n)
     data = merge_components(data, target_freq_limit)
@@ -170,8 +169,3 @@ def analysis():
     
     return data
     
-   
-if __name__ == '__main__':
-    
-    data = analysis()
-    #data.to_csv('file.csv')
