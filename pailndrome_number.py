@@ -5,7 +5,7 @@ palindrome, and false otherwise.
 class CheckPalindrome:
     
     def check_palindrome(self, x):
-        print(x)
+        
         if x<0:
             return False
         x = str(x)
