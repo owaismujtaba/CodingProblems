@@ -10,7 +10,7 @@ from datetime import datetime
 # LIKE ['date', 'time', 'Frequency'] put the below variables manually in analysis function
 # remove_first, first_n, second_n, third_n = 20, 5, 3, 3
 # target_freq_limit = [350, 600, 350]
-filepath = 'D:\CodingProblems\june15_2023_007_hypoxia_csv.csv'
+filepath = '/content/mar082023phox2bhypoxia9283.csv'
 
 def read_file():
     """
@@ -64,7 +64,7 @@ def remove_first_n_minutes(df, n_minutes):
 
     # Ensure the 'timestamp' column is in datetime format
     df[time_column] = pd.to_datetime(df[time_column])
-
+    print('removeing from ',df[time_column].min())
     # Filter the DataFrame for the first n minutes of data
     remaining_df = df[df[time_column] > df[time_column].min() + pd.Timedelta(minutes=n_minutes)]
 
@@ -89,9 +89,9 @@ def extract_first_n_minutes(df, n_minutes):
 
     # Ensure the 'timestamp' column is in datetime format
     df[time_column] = pd.to_datetime(df[time_column])
-
+  
     # Filter the DataFrame for the first n minutes of data
-    first_n_minutes_data = df[df[time_column] <= df[time_column].min() + pd.Timedelta(minutes=n_minutes)]
+    first_n_minutes_data = df[df[time_column] < df[time_column].min() + pd.Timedelta(minutes=n_minutes)]
 
     return first_n_minutes_data
 
@@ -118,7 +118,7 @@ def extract_components_from_data(data, remove_first, first_n, second_n, third_n)
     
     first_10__minutes_data = extract_first_n_minutes(data, first_n)
     data = remove_first_n_minutes(data, first_n)
-    second_10_minutes_data = extract_first_n_minutes(data, 10)
+    second_10_minutes_data = extract_first_n_minutes(data,second_n )
     data = data = remove_first_n_minutes(data, second_n)
     third_10_minutes_data = extract_first_n_minutes(data, third_n)
     
@@ -140,9 +140,8 @@ def merge_components(data, target_freq_limit = [350, 600, 350]):
 
     
 def compute_means_by_minutes(df):
-    df['min'] = df['time'].dt.minute
-   
-    result = df.groupby('min').mean().reset_index()
+    result = df.groupby([df['time'].dt.hour, df['time'].dt.minute]).mean()
+    #pdb.set_trace()
     return result
 
 def plot(data):
@@ -155,11 +154,10 @@ def plot(data):
     
     plt.savefig('plot.png', dpi = 600)
        
-def analysis():
+def analysis(remove_first, first_n, second_n, third_n, target_freq_limit):
     data = read_file()
     # Put these values maunally
-    remove_first, first_n, second_n, third_n = 20, 10, 10, 10
-    target_freq_limit = [350, 600, 350]
+   
     
     data = extract_components_from_data(data, remove_first, first_n, second_n, third_n)
     data = merge_components(data, target_freq_limit)
@@ -170,8 +168,3 @@ def analysis():
     
     return data
     
-   
-if __name__ == '__main__':
-    
-    data = analysis()
-    #data.to_csv('file.csv')
