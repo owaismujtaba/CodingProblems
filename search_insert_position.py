@@ -13,8 +13,8 @@ class SearchInsertPosition:
             middle = (left + right)//2
             if arr[middle] == target:
                 return middle
-            #elif right - left == 1:
-            #    return left
+            elif right - left == 1:
+                return right
             elif arr[middle] < target:
                 left = middle
             else:

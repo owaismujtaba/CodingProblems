@@ -29,3 +29,6 @@ class ReverseInteger:
 if __name__ == '__main__':
     obj = ReverseInteger()
     print(obj.reverse_integer(1563847412))
+    a =(1, 2, 3)
+    a.remove(2)
+    print(a)
