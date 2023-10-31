@@ -45,5 +45,31 @@ class AddBinary:
             
         return res
     
+    def add_binary_efficient(self, a, b):
+        a_index = len(a)
+        b_index = len(b)
+        sum_binary = ''
+        carry = 0
+        while a_index>0 or b_index>0 or carry:
+                if a_index>0:
+                    carry += int(a[a_index-1])
+                    a_index -= 1
+                                    
+                if b_index>0:
+                    carry += int(b[b_index-1])
+                    b_index -=1
+                
+                sum_binary = str(carry%2) + sum_binary
+                carry = carry//2
+                if not carry and not a_index:
+                    sum_binary = b[:b_index] + sum_binary
+                    return sum_binary 
+                if not carry and not b_index:
+                    sum_binary = a[:a_index] + sum_binary
+                    return sum_binary 
+
+        return sum_binary
+        
+    
 obj = AddBinary()
-print(obj.add_binary('1010', '1011'))
+print(obj.add_binary_efficient('100', '110010'))
